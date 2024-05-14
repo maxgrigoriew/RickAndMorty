@@ -1,0 +1,50 @@
+@import 'vars';
+
+*,*::before,*::after {
+  box-sizing: border-box;
+}
+body {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  font-family: sans-serif;
+}
+a,
+button,
+.button {
+  color: var(--button-color);
+  transition: all 0.1s ease 0s;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s;
+
+  &:hover:not([disabled]):not(:active) {
+    color: var(--accent);
+  }
+
+  &.border {
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    padding: 8px 18px;
+
+    &:hover:not([disabled]):not(:active) {
+      background: var(--accent);
+      color: var(--light);
+    }
+  }
+
+  &.no-border {
+
+  }
+
+}
+
+.container {
+  max-width: 1280px;
+  padding: 0 40px;
+  margin: 0 auto;
+}
