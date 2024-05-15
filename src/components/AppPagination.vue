@@ -1,68 +1,69 @@
 <script setup>
-import { watch, computed } from 'vue';
+import { watch, ref, computed } from 'vue';
+import LeftIcon from '@/assets/images/left.svg?component';
+import RightIcon from '@/assets/images/right.svg?component';
+import LeftDoubleIcon from '@/assets/images/left-left.svg?component';
+import RightDoubleIcon from '@/assets/images/right-right.svg?component';
 
-const emits = defineEmits('fetchData');
+
+const emits = defineEmits(['onSetPage']);
 
 const props = defineProps({
     pages: {
         type: Number,
-        default: 10
+        required: true,
     },
-    currentPage: {
-        type: Number,
-        default: 1
-    }
 });
-watch(
-    () => props.currentPage,
-    () => {
-        emits('fetchData');
-    },
-);
 
-// const disabled = computed(() =>
-//     store.currentPage === 1 ? $style.disabled : '',
-// );
+const currentPage = ref(1);
+
+const setPage = (page) => currentPage.value = page;
+const setFirstPage = (page) => currentPage.value = 1;
+const setLastPage = (page) => currentPage.value = props.pages;
+const incrementPage = () => currentPage.value +=1;
+const decrementPage = () => currentPage.value -=1;
+
+watch(currentPage, () => emits('onSetPage', currentPage.value));
+
 </script>
 
 <template>
     <div class="pagination">
         <div
-            class="style.pagination__item"
-            @click="emits('setFirstPage')"
+            class="pagination__item"
+            :class="{disabled: currentPage === 1}"
+            @click="setFirstPage"
         >
-            1
+            <LeftDoubleIcon/>
         </div>
         <div
             class="pagination__item"
-            :class="[currentPage === 1 || !pages ? 'disabled' : '']"
-            @click="emits('decrementPage')"
+            :class="{disabled: currentPage === 1}"
+            @click="decrementPage"
         >
-            2
+            <LeftIcon/>
         </div>
         <div
-            v-for="(pagination, ind) in pages"
-            :key="ind"
-            :class="[pagination === currentPage ? 'active' : '']"
+            v-for="(page) in pages"
+            :class="{ active: page === currentPage }"
             class="pagination__item"
-            @click="emits('setPage', pagination)"
+            @click="setPage(page)"
         >
-            <div>{{ pagination }}</div>
-        </div>
-
-        <div
-            class="pagination__item"
-            :class="[currentPage === pages || !pages ? 'disabled' : '']"
-            @click="emits('incrementPage')"
-        >
-            3
+            <div>{{ page }}</div>
         </div>
         <div
             class="pagination__item"
-            :class="[ currentPage === pages || !pages ? 'disabled' : '']"
-            @click="emits('setLastPage')"
+            :class="{disabled: currentPage === pages}"
+            @click="incrementPage"
         >
-            4
+            <RightIcon/>
+        </div>
+        <div
+            class="pagination__item"
+            :class="{disabled: currentPage === pages}"
+            @click="setLastPage"
+        >
+            <RightDoubleIcon/>
         </div>
     </div>
 </template>
@@ -112,7 +113,7 @@ watch(
         }
 
         &.active {
-            background: var(--default);
+            background: var(--accent);
             color: var(--light);
         }
 
@@ -124,6 +125,10 @@ watch(
 
     &__arrow {
         fill: var(--default);
+    }
+
+    & svg path {
+        fill: red !important;
     }
 }
 

@@ -1,5 +1,6 @@
 <script setup>
 import CharacterListItem from '@/components/CharacterListItem.vue';
+import { computed } from 'vue';
 
 const props = defineProps({
     characters: {
@@ -7,12 +8,16 @@ const props = defineProps({
         required: true
     }
 });
+
+const hasCharacters = computed(() => props.characters)
 </script>
 
 <template>
-    <ul class="list">
-        <CharacterListItem :character="character" v-for="character in characters" :key="item"/>
+    <ul v-if="hasCharacters" class="list">
+        <CharacterListItem :character="character" v-for="character in characters"/>
     </ul>
+
+    <div v-else class="empty">List is empty</div>
 </template>
 
 <style scoped lang="scss">
@@ -21,6 +26,12 @@ const props = defineProps({
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
     padding: 100px 0;
+}
+
+.empty {
+    padding: 10px 0;
+    text-align: center;
+    color: var(--light);
 }
 
 @media (max-width: 1440px) {

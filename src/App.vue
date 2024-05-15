@@ -1,22 +1,36 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import CharacterList from '@/components/CharacterList.vue';
 import AppPagination from '@/components/AppPagination.vue';
+import CharacterServices from '@/services/CharacterServices.js';
 
+const FIRST_PAGE = 1;
 const characters = ref([]);
+const pages = ref(1);
+const query = {
+
+}
+
+const fetchCharacters = async (currentPage) => {
+    try {
+        const response = await CharacterServices.getAllCharacter(currentPage, 'alive', 'SAN');
+        characters.value = response.data.results;
+        pages.value = response.data.info.pages;
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+const setPage = (page) => fetchCharacters(page);
 
 onMounted(() => {
-    fetch('https://rickandmortyapi.com/api/character')
-        .then(data => data.json())
-        .then(data => {
-            characters.value = [ ...data.results ];
-        });
+    fetchCharacters(FIRST_PAGE);
 });
+
 </script>
 
 <template>
-
     <div class="hero">
         <div class="container">
             <AppHeader/>
@@ -27,7 +41,8 @@ onMounted(() => {
     <div class="content">
         <div class="character">
             <div class="container">
-                <AppPagination/>
+                <AppPagination :pages="pages"
+                               @onSetPage="setPage"/>
 
                 <CharacterList :characters="characters"/>
             </div>

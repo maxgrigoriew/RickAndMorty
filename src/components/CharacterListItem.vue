@@ -1,5 +1,6 @@
 <script setup>
 import LifeParams from '@/components/LifeParams.vue';
+
 const props = defineProps({
     character: {
         type: Object,
@@ -19,7 +20,7 @@ const props = defineProps({
 
             <div class="block">
                 <div class="name">Last known location:</div>
-                <a :href="character.location.url" class="description">{{ character.location.name }}</a>
+                <a :href="character.location?.url" class="description">{{ character.location?.name }}</a>
             </div>
 
             <div class="block">
