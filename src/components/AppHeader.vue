@@ -1,11 +1,11 @@
 <script setup>
-
+import IconLogo from './../assets/images/logo.svg?component';
 </script>
 
 <template>
     <div class="header">
         <a href="#" class="logo">
-            <img src="./../assets/images/logo.svg" alt="">
+            <IconLogo/>
         </a>
         <div class="buttons">
             <button class="button">Docs</button>
@@ -22,6 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 0;
 
     .buttons {
         display: inline-flex;

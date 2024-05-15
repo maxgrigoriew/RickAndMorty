@@ -4,23 +4,27 @@
   box-sizing: border-box;
 }
 body {
+  margin: 0;
   font-size: 16px;
   line-height: 1.5;
   font-weight: 500;
   font-family: sans-serif;
 }
+ul, li, {
+  padding: 0;
+  margin: 0;
+}
 a,
 button,
 .button {
   color: var(--button-color);
-  transition: all 0.1s ease 0s;
+  transition: var(--transition);
   background: transparent;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   text-decoration: none;
-  transition: all 0.2s;
 
   &:hover:not([disabled]):not(:active) {
     color: var(--accent);
@@ -44,7 +48,8 @@ button,
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1880px;
   padding: 0 40px;
   margin: 0 auto;
 }
+

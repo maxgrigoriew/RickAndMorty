@@ -1,20 +1,25 @@
 <script setup>
-
+import LifeParams from '@/components/LifeParams.vue';
+const props = defineProps({
+    character: {
+        type: Object,
+        required: true
+    }
+});
 </script>
 
 <template>
     <li class="item">
-        <img class="img" src="./../assets/images/character.jpeg" alt="">
-
+        <img class="img" :src="character.image" alt="">
         <div class="content">
             <div class="header">
-                <a href="#" class="title">General Store Owner</a>
-                <div class="subtitle">Dead - Alien</div>
+                <a href="#" class="title">{{ character.name }}</a>
+                <LifeParams :status="character.status" :species="character.species"/>
             </div>
 
             <div class="block">
                 <div class="name">Last known location:</div>
-                <a href="#" class="description">Last known location:</a>
+                <a :href="character.location.url" class="description">{{ character.location.name }}</a>
             </div>
 
             <div class="block">
@@ -53,20 +58,6 @@
         .title {
             font-size: 26px;
             font-weight: 800;
-        }
-        .subtitle {
-            line-height: 20px;
-
-            &::before {
-                content: '';
-                height: 8px;
-                width: 8px;
-                margin-bottom: 1px;
-                display: inline-block;
-                margin-right: 5px;
-                background: rgb(214, 61, 46);
-                border-radius: 50%;
-            }
         }
     }
 
