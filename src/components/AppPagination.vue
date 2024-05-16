@@ -71,7 +71,6 @@ watch(currentPage, () => emits('onSetPage', currentPage.value));
 <style scoped lang="scss">
 
 .pagination {
-    --border-radius: 10px;
 
     display: flex;
     justify-content: center;

@@ -1,31 +1,63 @@
-<script setup>
-import { onMounted, ref, watch } from 'vue';
+<script setup lang="ts">
+import {onMounted, ref, reactive} from 'vue';
 import AppHeader from '@/components/AppHeader.vue';
 import CharacterList from '@/components/CharacterList.vue';
 import AppPagination from '@/components/AppPagination.vue';
 import CharacterServices from '@/services/CharacterServices.js';
+import InputSearch from '@/components/InputSearch.vue';
+import SelectSearch from "@/components/SelectSearch.vue";
+import {type Query} from "@/types";
 
-const FIRST_PAGE = 1;
-const characters = ref([]);
-const pages = ref(1);
-const query = {
+// interface Query {
+//     name: string;
+//     status: string;
+//     page: number | null;
+// }
 
+function initQuery() {
+    return {
+        name: '',
+        status: '',
+        page: null,
+    }
 }
 
-const fetchCharacters = async (currentPage) => {
+const characters = ref([]);
+const pages = ref(0);
+
+const statuses = ref([
+    {id: 'alive', name: 'Alive'},
+    {id: 'dead', name: 'Dead'},
+    {id: 'unknown', name: 'unknown'},
+])
+
+const query: Query = reactive({
+   ...initQuery()
+})
+const fetchCharacters = async (query: any) => {
     try {
-        const response = await CharacterServices.getAllCharacter(currentPage, 'alive', 'SAN');
-        characters.value = response.data.results;
-        pages.value = response.data.info.pages;
+        const response = await CharacterServices.getAllCharacter(query);
+        characters.value = response?.data?.results;
+        pages.value = response?.data?.info?.pages;
     } catch (e) {
+        alert('Поиск не дал результатов. Введите другие параметры')
         console.error(e);
     }
 };
 
-const setPage = (page) => fetchCharacters(page);
+const setPage = (page: number) => {
+    query.page = page;
+    fetchCharacters(query)
+};
+const setStatus = (status: string) => query.status = status;
+const clearSearch = () => {
+    Object.assign(query, initQuery())
+    fetchCharacters(query)
+}
+
 
 onMounted(() => {
-    fetchCharacters(FIRST_PAGE);
+    fetchCharacters(query);
 });
 
 </script>
@@ -37,8 +69,25 @@ onMounted(() => {
             <div class="hero__title">The Rick and Morty</div>
         </div>
     </div>
-
+{{ query }}
     <div class="content">
+        <div class="search-panel">
+            <div class="container">
+                <div class="search-panel__inner">
+                    <InputSearch v-model="query.name"/>
+                    <select-search
+                        v-model="query.status"
+                        :options="statuses"
+                        @option="setStatus">
+                        Status
+                    </select-search>
+
+                    <button @click="fetchCharacters(query)" class="border light">Найти</button>
+                    <button @click="clearSearch" class="border light">Сбросить</button>
+                </div>
+            </div>
+        </div>
+
         <div class="character">
             <div class="container">
                 <AppPagination :pages="pages"
@@ -46,7 +95,6 @@ onMounted(() => {
 
                 <CharacterList :characters="characters"/>
             </div>
-
         </div>
 
         <div class="footer">
@@ -73,11 +121,16 @@ onMounted(() => {
 
 .content {
     background: var(--gray-dark);
+}
 
+.search-panel {
+    &__inner {
+        display: flex;
+        column-gap: 10px;
+    }
 }
 
 .footer {
-    color: red;
     padding: 50px 0;
     background: var(--black);
 

@@ -38,14 +38,14 @@ const props = defineProps({
     overflow: hidden;
     color: var(--light);
     font-weight: 500;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 
     .img {
         width: 200px;
         object-fit: cover;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
     }
 
     .content {

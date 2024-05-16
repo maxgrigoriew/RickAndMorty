@@ -32,7 +32,7 @@ button,
 
   &.border {
     border: 2px solid var(--accent);
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     padding: 8px 18px;
 
     &:hover:not([disabled]):not(:active) {
@@ -41,8 +41,8 @@ button,
     }
   }
 
-  &.no-border {
-
+  &.light {
+    color: var(--light);
   }
 
 }
