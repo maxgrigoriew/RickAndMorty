@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import IconLogo from './../assets/images/logo.svg?component';
 </script>
 

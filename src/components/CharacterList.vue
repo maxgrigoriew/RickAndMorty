@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import CharacterListItem from '@/components/CharacterListItem.vue';
-import { computed } from 'vue';
+import {computed} from 'vue';
+import type { Character} from '@/types/index'
 
-const props = defineProps({
-    characters: {
-        type: Array,
-        required: true
-    }
-});
 
+interface Props {
+    characters: Character[]
+}
+
+const props = defineProps<Props>();
 const hasCharacters = computed(() => props.characters)
 </script>
 

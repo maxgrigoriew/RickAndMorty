@@ -1,16 +1,11 @@
-<script setup>
-import { computed } from 'vue';
+<script setup lang="ts">
+import type {LifeStatus} from "@/types";
 
-const props = defineProps({
-    status: {
-        type: String,
-        default: 'unknown'
-    },
-    species: {
-        type: String,
-        required: true
-    }
-});
+interface Props {
+    status: LifeStatus,
+    species: string,
+}
+const props = defineProps<Props>();
 
 </script>
 

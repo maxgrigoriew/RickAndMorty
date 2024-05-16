@@ -1,25 +1,24 @@
-<script setup>
-import { watch, ref, computed } from 'vue';
+<script setup lang="ts">
+import {ref, watch} from 'vue';
 import LeftIcon from '@/assets/images/left.svg?component';
 import RightIcon from '@/assets/images/right.svg?component';
 import LeftDoubleIcon from '@/assets/images/left-left.svg?component';
 import RightDoubleIcon from '@/assets/images/right-right.svg?component';
 
+interface Props {
+    pages: number
+}
 
-const emits = defineEmits(['onSetPage']);
-
-const props = defineProps({
-    pages: {
-        type: Number,
-        required: true,
-    },
-});
+const props = defineProps<Props>();
+const emits = defineEmits<{
+    'onSetPage': [value: number];
+}>();
 
 const currentPage = ref(1);
 
-const setPage = (page) => currentPage.value = page;
-const setFirstPage = (page) => currentPage.value = 1;
-const setLastPage = (page) => currentPage.value = props.pages;
+const setPage = (page: number) => currentPage.value = page;
+const setFirstPage = () => currentPage.value = 1;
+const setLastPage = () => currentPage.value = props.pages;
 const incrementPage = () => currentPage.value +=1;
 const decrementPage = () => currentPage.value -=1;
 

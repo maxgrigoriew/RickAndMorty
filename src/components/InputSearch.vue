@@ -1,7 +1,13 @@
-<script setup>
+<script setup lang="ts">
 
-const props = defineProps([ 'modelValue' ]);
-const emits = defineEmits([ 'update:modelValue' ]);
+interface Props {
+    modelValue: string
+}
+
+const props = defineProps<Props>();
+const emits = defineEmits<{
+    'update:modelValue': [value: string];
+}>();
 </script>
 
 <template>
@@ -10,7 +16,7 @@ const emits = defineEmits([ 'update:modelValue' ]);
         type="text"
         placeholder="Введите текст"
         :value="modelValue"
-        @input="emits('update:modelValue', $event.target.value)"
+        @input="emits('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
 </template>
 <style scoped lang="scss">
@@ -28,7 +34,7 @@ const emits = defineEmits([ 'update:modelValue' ]);
     color: var(--light);
 
     &::placeholder {
-        color: var(--gray-light);
+        color: var(--light);
     }
 }
 

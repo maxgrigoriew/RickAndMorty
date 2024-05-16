@@ -6,15 +6,10 @@ import AppPagination from '@/components/AppPagination.vue';
 import CharacterServices from '@/services/CharacterServices.js';
 import InputSearch from '@/components/InputSearch.vue';
 import SelectSearch from "@/components/SelectSearch.vue";
-import {type Query} from "@/types";
+import type {Query, Status} from "@/types";
 
-// interface Query {
-//     name: string;
-//     status: string;
-//     page: number | null;
-// }
 
-function initQuery() {
+function emptyQuery(): Query {
     return {
         name: '',
         status: '',
@@ -25,14 +20,14 @@ function initQuery() {
 const characters = ref([]);
 const pages = ref(0);
 
-const statuses = ref([
+const statuses: Status[] = ref([
     {id: 'alive', name: 'Alive'},
     {id: 'dead', name: 'Dead'},
     {id: 'unknown', name: 'unknown'},
 ])
 
 const query: Query = reactive({
-   ...initQuery()
+    ...emptyQuery()
 })
 const fetchCharacters = async (query: any) => {
     try {
@@ -45,16 +40,17 @@ const fetchCharacters = async (query: any) => {
     }
 };
 
-const setPage = (page: number) => {
+const setPage = (page: number): void => {
     query.page = page;
     fetchCharacters(query)
 };
-const setStatus = (status: string) => query.status = status;
-const clearSearch = () => {
-    Object.assign(query, initQuery())
+const setStatus = (status: string): void => {
+    query.status = status
+};
+const clearSearch = (): void => {
+    Object.assign(query, emptyQuery())
     fetchCharacters(query)
 }
-
 
 onMounted(() => {
     fetchCharacters(query);
@@ -69,7 +65,6 @@ onMounted(() => {
             <div class="hero__title">The Rick and Morty</div>
         </div>
     </div>
-{{ query }}
     <div class="content">
         <div class="search-panel">
             <div class="container">
@@ -90,10 +85,9 @@ onMounted(() => {
 
         <div class="character">
             <div class="container">
+                <CharacterList :characters="characters"/>
                 <AppPagination :pages="pages"
                                @onSetPage="setPage"/>
-
-                <CharacterList :characters="characters"/>
             </div>
         </div>
 
@@ -127,6 +121,7 @@ onMounted(() => {
     &__inner {
         display: flex;
         column-gap: 10px;
+        padding-top: 50px;
     }
 }
 

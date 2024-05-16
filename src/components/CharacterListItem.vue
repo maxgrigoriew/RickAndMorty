@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import LifeParams from '@/components/LifeParams.vue';
+import type {Character} from '@/types/index'
 
-const props = defineProps({
-    character: {
-        type: Object,
-        required: true
-    }
-});
+interface Props {
+    character: Character
+}
+
+const props = defineProps<Props>();
+
 </script>
 
 <template>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
+import {computed, ref} from 'vue';
+import type {Status} from "@/types";
 
 interface Props {
-    options?: [],
-    modelValue?: string
+    options: Status[],
+    modelValue: string
 }
 
 const props = defineProps<Props>();
@@ -12,7 +13,6 @@ const emits = defineEmits<{
 }>();
 
 const open = ref(false);
-const selected = computed(() => (props.options && props.options?.length > 0 ? props.options[0].name : null));
 
 const selectOption = (id: string) => {
     open.value = false

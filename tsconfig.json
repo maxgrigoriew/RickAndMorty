@@ -2,11 +2,6 @@
   "compilerOptions": {
     "module": "es6",
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.vue"
-  ],
   "files": [],
   "references": [
     {
